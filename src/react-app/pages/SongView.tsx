@@ -111,8 +111,10 @@ export default function SongView() {
               </div>
             </header>
 
-            <div className="mt-12 lg:grid lg:grid-cols-[420px_minmax(0,1fr)] lg:gap-12">
-              <aside className="mb-10 lg:sticky lg:top-24 lg:self-start">
+
+            <div className="mt-12">
+              {/* Mobile sticky video */}
+              <div className="sticky top-0 z-20 mb-8 bg-stone-50 pb-4 lg:hidden">
                 <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
                   <div className="aspect-video">
                     <iframe
@@ -124,120 +126,101 @@ export default function SongView() {
                     />
                   </div>
                 </div>
+              </div>
 
-                <div className="mt-4 rounded-2xl border border-stone-200 bg-white p-5">
-                  <div className="space-y-4 text-sm">
-                    <div>
-                      <div className="uppercase tracking-widest text-stone-400">
-                        Artist
-                      </div>
-                      <div className="mt-1">{song.artist}</div>
-                    </div>
-
-                    <div>
-                      <div className="uppercase tracking-widest text-stone-400">
-                        Genre
-                      </div>
-                      <div className="mt-1">{song.genre}</div>
-                    </div>
-
-                    {song.year && (
-                      <div>
-                        <div className="uppercase tracking-widest text-stone-400">
-                          Year
-                        </div>
-                        <div className="mt-1">{song.year}</div>
-                      </div>
-                    )}
-
-                    <div>
-                      <div className="uppercase tracking-widest text-stone-400">
-                        Lines
-                      </div>
-                      <div className="mt-1">
-                        {song.lyrics.length}
-                      </div>
+              <div className="lg:grid lg:grid-cols-[560px_minmax(0,1fr)] lg:gap-12">
+                {/* Desktop sticky video */}
+                <aside className="hidden lg:block lg:sticky lg:top-6 lg:self-start">
+                  <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+                    <div className="aspect-video">
+                      <iframe
+                        className="h-full w-full"
+                        src={`https://www.youtube.com/embed/${song.youtubeId}`}
+                        title={song.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
                     </div>
                   </div>
-                </div>
-              </aside>
+                </aside>
 
-              <section>
-                <div className="mb-10 flex justify-center lg:justify-start">
-                  <div className="inline-flex rounded-full border border-stone-200 bg-white p-1">
-                    {(["parallel", "tibetan", "english"] as ViewMode[]).map(
-                      (m) => (
+                {/* Lyrics */}
+                <section>
+                  <div className="mb-10 flex justify-center lg:justify-start">
+                    <div className="inline-flex rounded-full border border-stone-200 bg-white p-1">
+                      {(["parallel", "tibetan", "english"] as ViewMode[]).map((m) => (
                         <button
                           key={m}
                           onClick={() => setMode(m)}
-                          className={`rounded-full px-4 py-2 text-sm transition ${
-                            mode === m
-                              ? "bg-[#d8401c] text-white"
-                              : "text-stone-600 hover:text-stone-900"
-                          }`}
+                          className={`rounded-full px-4 py-2 text-sm transition ${mode === m
+                            ? "bg-[#d8401c] text-white"
+                            : "text-stone-600 hover:text-stone-900"
+                            }`}
                         >
                           {m === "parallel"
                             ? "Parallel"
                             : m === "tibetan"
-                            ? "བོད་སྐད།"
-                            : "English"}
+                              ? "བོད་སྐད།"
+                              : "English"}
                         </button>
-                      )
-                    )}
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {mode === "parallel" && (
-                  <div className="grid gap-x-12 gap-y-6 md:grid-cols-2">
-                    <div className="bo border-b border-stone-200 pb-3 text-sm text-[#d8401c]">
-                      བོད་སྐད།
-                    </div>
-
-                    <div className="border-b border-stone-200 pb-3 text-sm text-stone-500">
-                      English
-                    </div>
-
-                    {song.lyrics.map((line, i) => (
-                      <div key={i} className="contents">
-                        <div className="bo text-xl leading-loose">
-                          {line.tibetan}
-                        </div>
-
-                        <div className="leading-loose text-stone-700">
-                          {line.english}
-                        </div>
+                  {mode === "parallel" && (
+                    <div className="grid gap-x-10 gap-y-8 md:grid-cols-2">
+                      <div className="bo border-b border-stone-200 pb-3 text-sm text-[#d8401c]">
+                        བོད་སྐད།
                       </div>
-                    ))}
-                  </div>
-                )}
 
-                {mode === "tibetan" && (
-                  <div className="mx-auto max-w-4xl">
-                    {song.lyrics.map((line, i) => (
-                      <p
-                        key={i}
-                        className="bo py-2 text-center text-2xl leading-loose"
-                      >
-                        {line.tibetan}
-                      </p>
-                    ))}
-                  </div>
-                )}
+                      <div className="border-b border-stone-200 pb-3 text-sm text-stone-500">
+                        English
+                      </div>
 
-                {mode === "english" && (
-                  <div className="mx-auto max-w-4xl">
-                    {song.lyrics.map((line, i) => (
-                      <p
-                        key={i}
-                        className="py-2 text-center text-lg leading-relaxed"
-                      >
-                        {line.english}
-                      </p>
-                    ))}
-                  </div>
-                )}
-              </section>
+                      {song.lyrics.map((line, i) => (
+                        <div key={i} className="contents">
+                          <div className="bo text-xl leading-loose">
+                            {line.tibetan}
+                          </div>
+
+                          <div className="leading-loose text-stone-700">
+                            {line.english}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {mode === "tibetan" && (
+                    <div className="mx-auto max-w-4xl">
+                      {song.lyrics.map((line, i) => (
+                        <p
+                          key={i}
+                          className="bo py-2 text-center text-2xl leading-loose"
+                        >
+                          {line.tibetan}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+
+                  {mode === "english" && (
+                    <div className="mx-auto max-w-4xl">
+                      {song.lyrics.map((line, i) => (
+                        <p
+                          key={i}
+                          className="py-2 text-center text-lg leading-relaxed"
+                        >
+                          {line.english}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              </div>
             </div>
+
+
           </>
         )}
       </main>
