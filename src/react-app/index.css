@@ -1,48 +1,121 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Tibetan:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+@import "tailwindcss";
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Class-based dark mode (toggled on <html>; dark is the default — see index.html) */
+@custom-variant dark (&:where(.dark, .dark *));
 
+/* ── Palette ──────────────────────────────────────────────────────
+   Dark is the home key: near-black, high contrast, one burning ember
+   accent — the "kindred light". Light mode is a stark protest-poster
+   inversion. Values swap under .dark. */
 :root {
-  --bg:        #0e0d0b;
-  --bg-card:   #161410;
-  --bg-hover:  #1e1b16;
-  --border:    #2e2a22;
-  --gold:      #c9a84c;
-  --gold-dim:  #7a6530;
-  --text:      #e8e0d0;
-  --text-dim:  #8a8070;
-  --text-muted:#4a4540;
-  --red:       #c0392b;
-  --radius:    4px;
+  --bg: #f3efe6;
+  --surface: #ffffff;
+  --border: #1512100f;
+  --line: #15121026;     /* harder rule */
+  --text: #14110c;
+  --muted: #6c665b;
+  --accent: #d8401c;     /* ember */
+  --accent-2: #f0a818;   /* flare */
+  --glow: 216 64 28;     /* rgb of accent, for glows */
 }
 
-html, body, #root {
-  height: 100%;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 18px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+.dark {
+  --bg: #0a0a0b;
+  --surface: #141417;
+  --border: #ffffff14;
+  --line: #ffffff26;
+  --text: #f5f1e9;
+  --muted: #8a857c;
+  --accent: #f25c2a;
+  --accent-2: #ffb02e;
+  --glow: 242 92 42;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* ── Map semantic vars into Tailwind's theme (inline = emits var()) ─ */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+
+  /* fluid type */
+  --text-mega: clamp(3.5rem, 14vw, 14rem);
+  --text-mega--line-height: 0.82;
+  --text-display: clamp(2.75rem, 9vw, 8rem);
+  --text-display--line-height: 0.9;
+  --text-hero: clamp(2.25rem, 6vw, 5.5rem);
+  --text-hero--line-height: 0.95;
 }
 
-/* Tibetan text utility */
-.bo {
-  font-family: 'Noto Serif Tibetan', serif;
-  line-height: 1.8;
-  letter-spacing: 0.01em;
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  ::selection { background: var(--accent); color: #fff; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+@layer components {
+  .container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container { padding-inline: 2.5rem; }
+  }
+
+  /* Brutalist outlined headline — used for ghosted, defiant type */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--text);
+  }
+  .text-outline-accent {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+
+@layer utilities {
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 28s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+}
+
+html {
+  overflow-anchor: none;
+}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "./SongList.module.css";
 
 interface SongSummary {
   id: string;
@@ -33,49 +32,83 @@ export default function SongList() {
   }, []);
 
   return (
-    <div className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.headerInner}>
-          <span className={styles.headerScript + " bo"}>གཞས་ཚིག</span>
-          <h1 className={styles.siteTitle}>Tibetan Lyrics</h1>
-          <p className={styles.subtitle}>A living collection of songs in Tibetan and English</p>
+    <div className="min-h-screen bg-stone-50 text-stone-900">
+      {/* Header */}
+      <header className="border-b border-stone-200">
+        <div className="container mx-auto max-w-5xl px-6 py-20">
+          <div className="space-y-4">
+            <span className="bo block text-sm tracking-[0.3em] text-[#d8401c]">
+              གཞས་ཚིག
+            </span>
+
+            <h1 className="font-serif text-5xl md:text-7xl">
+              Tibetan Lyrics
+            </h1>
+
+            <p className="max-w-2xl text-lg text-stone-600">
+              A living collection of songs in Tibetan and English
+            </p>
+          </div>
         </div>
-        <div className={styles.headerRule} />
       </header>
 
-      <main className={styles.main}>
+      {/* Content */}
+      <main className="container mx-auto max-w-5xl px-6 py-12">
         {loading && (
-          <p className={styles.state}>Loading…</p>
+          <p className="text-stone-500">Loading…</p>
         )}
+
         {error && (
-          <p className={styles.stateError}>{error}</p>
+          <p className="text-red-600">{error}</p>
         )}
+
         {!loading && !error && (
-          <ul className={styles.list}>
+          <ul className="divide-y divide-stone-200 border-y border-stone-200">
             {songs.map((song) => (
               <li key={song.id}>
-                <Link to={`/songs/${song.id}`} className={styles.card}>
-                  <div className={styles.cardLeft}>
-                    <span className={styles.tibetanTitle + " bo"}>{song.titleTibetan}</span>
-                    <span className={styles.englishTitle}>{song.title}</span>
-                  </div>
-                  <div className={styles.cardRight}>
-                    <span className={styles.artist}>
-                      {song.artistTibetan && (
-                        <span className={"bo " + styles.artistTib}>{song.artistTibetan}</span>
+                <Link
+                  to={`/songs/${song.id}`}
+                  className="group block py-8 transition-colors hover:bg-stone-100/60"
+                >
+                  <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                    <div className="space-y-2">
+                      <div className="bo text-xl text-[#d8401c]">
+                        {song.titleTibetan}
+                      </div>
+
+                      <h2 className="text-2xl font-medium">
+                        {song.title}
+                      </h2>
+                    </div>
+
+                    <div className="max-w-xl space-y-2 md:text-right">
+                      <div className="space-y-1">
+                        {song.artistTibetan && (
+                          <div className="bo text-stone-700">
+                            {song.artistTibetan}
+                          </div>
+                        )}
+
+                        <div>{song.artist}</div>
+                      </div>
+
+                      <div className="text-sm text-stone-500">
+                        {song.genre}
+                        {song.year ? ` · ${song.year}` : ""}
+                        {` · ${song.lineCount} lines`}
+                      </div>
+
+                      {song.description && (
+                        <p className="text-sm leading-relaxed text-stone-600">
+                          {song.description}
+                        </p>
                       )}
-                      <span>{song.artist}</span>
-                    </span>
-                    <span className={styles.meta}>
-                      {song.genre}
-                      {song.year ? ` · ${song.year}` : ""}
-                      {` · ${song.lineCount} lines`}
-                    </span>
-                    {song.description && (
-                      <span className={styles.desc}>{song.description}</span>
-                    )}
+                    </div>
                   </div>
-                  <span className={styles.arrow}>→</span>
+
+                  <div className="mt-4 text-[#d8401c] opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
+                    →
+                  </div>
                 </Link>
               </li>
             ))}
@@ -83,8 +116,11 @@ export default function SongList() {
         )}
       </main>
 
-      <footer className={styles.footer}>
-        <span>{songs.length} song{songs.length !== 1 ? "s" : ""} in the collection</span>
+      {/* Footer */}
+      <footer className="border-t border-stone-200">
+        <div className="container mx-auto max-w-5xl px-6 py-8 text-sm text-stone-500">
+          {songs.length} song{songs.length !== 1 ? "s" : ""} in the collection
+        </div>
       </footer>
     </div>
   );
