@@ -1,0 +1,190 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Header ── */
+.header {
+  padding: 3.5rem 0 0;
+  text-align: center;
+}
+
+.headerInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.headerScript {
+  font-size: 2rem;
+  color: var(--gold);
+  display: block;
+  line-height: 1.6;
+}
+
+.siteTitle {
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.15rem;
+}
+
+.headerRule {
+  margin: 2rem auto 0;
+  width: 80px;
+  height: 1px;
+  background: var(--gold-dim);
+}
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  padding: 3rem 0 4rem;
+}
+
+.state {
+  color: var(--text-dim);
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.stateError {
+  color: var(--red);
+  text-align: center;
+  padding: 4rem 0;
+}
+
+/* ── Song list ── */
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.list li + li {
+  border-top: 1px solid var(--border);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem 2rem;
+  align-items: start;
+  padding: 1.75rem 0;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: var(--radius);
+}
+
+.card:hover {
+  color: var(--text);
+}
+
+.card:hover .tibetanTitle {
+  color: var(--gold);
+}
+
+.card:hover .arrow {
+  transform: translateX(4px);
+  color: var(--gold);
+}
+
+/* ── Card columns ── */
+.cardLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.tibetanTitle {
+  font-size: 1.45rem;
+  color: var(--text);
+  transition: color 0.15s;
+  line-height: 1.6;
+}
+
+.englishTitle {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cardRight {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.15rem;
+}
+
+.artist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.artistTib {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+}
+
+.meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.desc {
+  font-size: 0.875rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-top: 0.15rem;
+  line-height: 1.5;
+}
+
+/* ── Arrow ── */
+.arrow {
+  align-self: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: transform 0.15s, color 0.15s;
+}
+
+/* ── Footer ── */
+.footer {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .card {
+    grid-template-columns: 1fr auto;
+  }
+  .cardRight {
+    display: none;
+  }
+  .tibetanTitle {
+    font-size: 1.25rem;
+  }
+}
