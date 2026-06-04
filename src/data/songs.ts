@@ -3,7 +3,7 @@ export interface LyricLine {
   english: string;
 }
 
-export interface Song {
+interface Song {
   id: string;
   title: string;
   titleTibetan: string;
@@ -12,6 +12,7 @@ export interface Song {
   genre: string;
   year?: number;
   description?: string;
+  youtubeId: string;
   lyrics: LyricLine[];
 }
 
@@ -22,6 +23,7 @@ export const songs: Song[] = [
     titleTibetan: "དཔལ་ལྡན་ལྷ་མོ།",
     artist: "Traditional",
     artistTibetan: "རྒྱུན་སྲོལ།",
+    youtubeId: "vq8njK1LGVc",
     genre: "Traditional / Devotional",
     description: "A traditional invocation to Palden Lhamo, the protector deity of Tibet.",
     lyrics: [
@@ -49,6 +51,7 @@ export const songs: Song[] = [
     titleTibetan: "རང་བཙན།",
     artist: "Ngawang Choephel",
     artistTibetan: "ངག་དབང་ཆོས་འཕེལ།",
+    youtubeId: "vq8njK1LGVc",
     genre: "Folk / Political",
     year: 1995,
     description: "A song about freedom and independence, composed by the Tibetan ethnomusicologist Ngawang Choephel.",
@@ -77,6 +80,7 @@ export const songs: Song[] = [
     titleTibetan: "དྲན་པ།",
     artist: "Loten Namling",
     artistTibetan: "བློ་གཏན་རྣམ་གླིང་།",
+    youtubeId: "vq8njK1LGVc",
     genre: "Contemporary",
     year: 2003,
     description: "A contemporary Tibetan song of longing and memory for the homeland.",

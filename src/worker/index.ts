@@ -5,7 +5,7 @@ const app = new Hono();
 
 // Return all songs (without full lyrics for the listing)
 app.get("/api/songs", (c) => {
-  const listing = songs.map(({ id, title, titleTibetan, artist, artistTibetan, genre, year, description }) => ({
+  const listing = songs.map(({ id, title, titleTibetan, artist, artistTibetan, genre, year, description, youtubeId }) => ({
     id,
     title,
     titleTibetan,
@@ -14,6 +14,7 @@ app.get("/api/songs", (c) => {
     genre,
     year,
     description,
+    youtubeId,
     lineCount: songs.find((s) => s.id === id)?.lyrics.length ?? 0,
   }));
   return c.json(listing);
