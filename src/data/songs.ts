@@ -24,7 +24,7 @@ export const songs: Song[] = [
     artist: "Traditional",
     artistTibetan: "རྒྱུན་སྲོལ།",
     youtubeId: "vq8njK1LGVc",
-    genre: "Traditional / Devotional",
+    genre: "Devotional",
     description: "A traditional invocation to Palden Lhamo, the protector deity of Tibet.",
     lyrics: [
       {
@@ -52,7 +52,7 @@ export const songs: Song[] = [
     artist: "Ngawang Choephel",
     artistTibetan: "ངག་དབང་ཆོས་འཕེལ།",
     youtubeId: "vq8njK1LGVc",
-    genre: "Folk / Political",
+    genre: "Folk",
     year: 1995,
     description: "A song about freedom and independence, composed by the Tibetan ethnomusicologist Ngawang Choephel.",
     lyrics: [

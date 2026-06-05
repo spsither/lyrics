@@ -147,7 +147,7 @@ export default function SongView() {
                 </aside>
 
                 {/* Lyrics */}
-                <section>
+                <section style={{ minHeight: "120vh" }}>
                   <div className="mb-10 flex justify-center lg:justify-start">
                     <SegmentedPill
                       options={["parallel", "tibetan", "english"]}

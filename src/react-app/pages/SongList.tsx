@@ -160,7 +160,7 @@ export default function SongList() {
               {filteredSongs.length !== 1 ? "s" : ""}
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6" style={{ minHeight: "120vh" }}>
               {filteredSongs.map((song) => (
                 <Link
                   key={song.id}
