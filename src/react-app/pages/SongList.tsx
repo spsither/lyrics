@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import SegmentedPill from "../components/SegmentedPill"
 
 interface SongSummary {
   id: string;
@@ -16,17 +17,24 @@ interface SongSummary {
 
 export default function SongList() {
   const [songs, setSongs] = useState<SongSummary[]>([]);
+  const [genres, setGenres] = useState<string[]>(["All"]);
+  const [genreFilter, setGenreFilter] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [query, setQuery] = useState("");
-  const [genreFilter, setGenreFilter] = useState("All");
 
   useEffect(() => {
     fetch("/api/songs")
-      .then((r) => r.json())
+      .then((r) => r.json() as Promise<SongSummary[]>)
       .then((data) => {
         setSongs(data);
+
+        const extracted = Array.from(
+          new Set(data.map((s: SongSummary) => s.genre))
+        );
+
+        setGenres(["All", ...extracted]);
         setLoading(false);
       })
       .catch(() => {
@@ -35,29 +43,9 @@ export default function SongList() {
       });
   }, []);
 
-  const genres = useMemo(
-    () => [
-      "All",
-      ...Array.from(new Set(songs.map((s) => s.genre))).sort(),
-    ],
-    [songs]
+  const filteredSongs = songs.filter((s) =>
+    genreFilter === "All" ? true : s.genre === genreFilter
   );
-
-  const filteredSongs = useMemo(() => {
-    return songs.filter((song) => {
-      const matchesQuery =
-        query.trim() === "" ||
-        song.title.toLowerCase().includes(query.toLowerCase()) ||
-        song.titleTibetan.includes(query) ||
-        song.artist.toLowerCase().includes(query.toLowerCase()) ||
-        song.artistTibetan?.includes(query);
-
-      const matchesGenre =
-        genreFilter === "All" || song.genre === genreFilter;
-
-      return matchesQuery && matchesGenre;
-    });
-  }, [songs, query, genreFilter]);
 
   const artistCount = useMemo(
     () => new Set(songs.map((s) => s.artist)).size,
@@ -81,6 +69,23 @@ export default function SongList() {
         .sort((a, b) => b - a)[0],
     [songs]
   );
+
+  // ✅ HERE — before any real UI render
+  if (loading) {
+    return (
+      <div className="flex justify-center py-10">
+        <div className="h-10 w-64 animate-pulse rounded-full bg-stone-200" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-10 text-center text-red-600">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-stone-50 text-stone-900">
@@ -129,17 +134,11 @@ export default function SongList() {
             className="flex-1 rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none transition focus:border-[#d8401c]"
           />
 
-          <select
+          <SegmentedPill
+            options={genres}
             value={genreFilter}
-            onChange={(e) => setGenreFilter(e.target.value)}
-            className="rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#d8401c]"
-          >
-            {genres.map((genre) => (
-              <option key={genre}>
-                {genre}
-              </option>
-            ))}
-          </select>
+            onChange={setGenreFilter}
+          />
         </div>
 
         {loading && (

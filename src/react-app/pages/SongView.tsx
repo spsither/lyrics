@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import SegmentedPill from "../components/SegmentedPill"
+
 
 interface LyricLine {
   tibetan: string;
@@ -147,24 +149,16 @@ export default function SongView() {
                 {/* Lyrics */}
                 <section>
                   <div className="mb-10 flex justify-center lg:justify-start">
-                    <div className="inline-flex rounded-full border border-stone-200 bg-white p-1">
-                      {(["parallel", "tibetan", "english"] as ViewMode[]).map((m) => (
-                        <button
-                          key={m}
-                          onClick={() => setMode(m)}
-                          className={`rounded-full px-4 py-2 text-sm transition ${mode === m
-                            ? "bg-[#d8401c] text-white"
-                            : "text-stone-600 hover:text-stone-900"
-                            }`}
-                        >
-                          {m === "parallel"
-                            ? "Parallel"
-                            : m === "tibetan"
-                              ? "བོད་སྐད།"
-                              : "English"}
-                        </button>
-                      ))}
-                    </div>
+                    <SegmentedPill
+                      options={["parallel", "tibetan", "english"]}
+                      value={mode}
+                      onChange={setMode}
+                      labels={{
+                        parallel: "Parallel",
+                        tibetan: "བོད་སྐད།",
+                        english: "English",
+                      }}
+                    />
                   </div>
 
                   {mode === "parallel" && (
